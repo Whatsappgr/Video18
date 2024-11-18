@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Video Landing Page</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f4f4f4;
+      text-align: center;
+    }
+    .container {
+      max-width: 800px;
+      margin: 50px auto;
+      background: #fff;
+      padding: 20px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      border-radius: 8px;
+    }
+    video {
+      width: 100%;
+      border-radius: 8px;
+    }
+    h1 {
+      color: #333;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Watch video</h1>
+    <h2>follow me on instagram (@_sarada_sara) for more videos </h2>
+    <video id="promoVideo" controls>
+      <source src="lv_0_20241118025235.mp4" type="video/mp4">
+      Your browser does not support the video tag.
+    </video>
+  </div>
+
+  <script>
+    const video = document.getElementById('promoVideo');
+    let adDisplayed = false;
+
+    // Listen for time updates on the video
+    video.addEventListener('timeupdate', () => {
+      if (!adDisplayed && video.currentTime >= 10) {
+        adDisplayed = true;
+        // Show a popup after 10 seconds
+        window.open("https://luglawhaulsano.net/4/8456112", "Ad Popup", "width=600,height=400");
+      }
+    });
+  </script>
+</body>
+</html>
